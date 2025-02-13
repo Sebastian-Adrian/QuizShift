@@ -21,7 +21,7 @@ public class QuizController {
     // Aggregate root
     // tag::get-aggregate-root[]
     @GetMapping
-    List<Quiz> getAllQuizzes() {
+    List<Quiz> all() {
         return quizService.getAllQuizzes();
     }
     // end::get-aggregate-root[]
