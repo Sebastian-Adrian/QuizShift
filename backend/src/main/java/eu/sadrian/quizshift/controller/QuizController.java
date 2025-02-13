@@ -10,17 +10,38 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/quizzes")
-@RequiredArgsConstructor
 public class QuizController {
+
     private final QuizService quizService;
 
-    @PostMapping
-    public ResponseEntity<Quiz> createQuiz(@RequestBody Quiz quiz) {
-        return ResponseEntity.ok(quizService.createQuiz(quiz));
+    public QuizController(QuizService quizService) {
+        this.quizService = quizService;
     }
 
+    // Aggregate root
+    // tag::get-aggregate-root[]
     @GetMapping
-    public ResponseEntity<List<Quiz>> getAllQuizzes() {
-        return ResponseEntity.ok(quizService.getAllQuizzes());
+    List<Quiz> getAllQuizzes() {
+        return quizService.getAllQuizzes();
+    }
+    // end::get-aggregate-root[]
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Quiz> getQuizById(@PathVariable Long id) {
+        return quizService.getQuizById(id)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @PostMapping
+    public Quiz createQuiz(@RequestBody Quiz quiz) {
+        return quizService.saveQuiz(quiz);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteQuiz(@PathVariable Long id) {
+        quizService.deleteQuiz(id);
+        return ResponseEntity.noContent().build();
     }
 }
+

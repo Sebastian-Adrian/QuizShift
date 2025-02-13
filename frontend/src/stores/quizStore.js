@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia';
-import api from '../api/api.js';
+//import api from '../api/api.js';
+import axios from 'axios';
 
 export const useQuizStore = defineStore('quiz', {
   state: () => ({
@@ -7,8 +8,17 @@ export const useQuizStore = defineStore('quiz', {
   }),
   actions: {
     async fetchQuizzes() {
+      /*
       const response = await api.get('/quizzes');
-      this.quizzes = response.data;
+       */
+      console.log('fetching quizzes');
+      try {
+        const response = await axios.get('/api/quizzes');
+        this.quizzes = response.data;
+        console.log(this.quizzes)
+      } catch (e) {
+        console.error('Fehler beim Laden der Quiz-Daten:', e);
+      }
     },
     async createQuiz(quiz) {
       if (

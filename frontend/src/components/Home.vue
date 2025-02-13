@@ -8,6 +8,7 @@
 </template>
 
 <script setup>
+
 import { onMounted } from 'vue';
 import { useQuizStore } from '../stores/quizStore';
 import QuizCard from '../components/QuizCard.vue';

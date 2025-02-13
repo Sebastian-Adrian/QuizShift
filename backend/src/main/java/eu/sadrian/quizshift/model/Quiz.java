@@ -21,4 +21,5 @@ public class Quiz {
     @ManyToOne
     @JoinColumn(name = "creator_id")
     private User creator;
+
 }
