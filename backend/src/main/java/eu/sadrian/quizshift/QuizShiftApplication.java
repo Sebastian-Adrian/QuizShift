@@ -13,6 +13,7 @@ public class QuizShiftApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(QuizShiftApplication.class, args);
+
     }
 
     @Bean

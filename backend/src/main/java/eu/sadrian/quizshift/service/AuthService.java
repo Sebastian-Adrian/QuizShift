@@ -16,6 +16,8 @@ public class AuthService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private static final String SECRET_KEY = System.getenv("JWT_SECRET_KEY");
+
 
     public AuthService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
@@ -34,11 +36,12 @@ public class AuthService {
 
     public String login(LoginDTO loginDTO) {
         User user = userRepository.findByUsername(loginDTO.getUsername())
-                .orElseThrow(() -> new RuntimeException("Invalid username or password"));
+                .orElseThrow(() -> new RuntimeException("Falscher Benutzername"));
 
         if (!passwordEncoder.matches(loginDTO.getPassword(), user.getPassword())) {
-            throw new RuntimeException("Invalid username or password");
+            throw new RuntimeException("Falsches Passwort");
         }
+        System.out.println("Login successful");
         //token erstellen
         // 1 day validity
         // Replace "secret-key" with a secure key
@@ -47,7 +50,7 @@ public class AuthService {
                 .claim("role", user.getRole().name())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + 86400000)) // 1 day validity
-                .signWith(SignatureAlgorithm.HS512, "secret-key") // Replace "secret-key" with a secure key
+                .signWith(SignatureAlgorithm.HS512, SECRET_KEY)
                 .compact();
 
     }
