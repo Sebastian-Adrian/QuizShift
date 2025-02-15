@@ -5,7 +5,7 @@ import api from "@/api/api.js";
 import {InputText} from "primevue";
 import {zodResolver} from '@primevue/forms/resolvers/zod';
 import {z} from 'zod';
-
+import {Form} from "@primevue/forms";
 
 export default {
 name: "Login",
