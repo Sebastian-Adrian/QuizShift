@@ -2,7 +2,7 @@
 import FloatingConfigurator from '@/components/FloatingConfigurator.vue';
 import { ref } from 'vue';
 
-const email = ref('');
+const name = ref('');
 const password = ref('');
 const checked = ref(false);
 </script>
@@ -34,10 +34,9 @@ const checked = ref(false);
                         <div class="text-surface-900 dark:text-surface-0 text-3xl font-medium mb-4">Welcome to PrimeLand!</div>
                         <span class="text-muted-color font-medium">Sign in to continue</span>
                     </div>
-
                     <div>
-                        <label class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2" for="email1">Email</label>
-                        <InputText id="email1" v-model="email" class="w-full md:w-[30rem] mb-8" placeholder="Email address" type="text" />
+                        <label class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2" for="name1">Email</label>
+                        <InputText id="name1" v-model="name" class="w-full md:w-[30rem] mb-8" placeholder="Name" type="text" />
 
                         <label class="block text-surface-900 dark:text-surface-0 font-medium text-xl mb-2" for="password1">Password</label>
                         <Password id="password1" v-model="password" :feedback="false" :toggleMask="true" class="mb-4" fluid placeholder="Password"></Password>
@@ -45,9 +44,9 @@ const checked = ref(false);
                         <div class="flex items-center justify-between mt-2 mb-8 gap-8">
                             <div class="flex items-center">
                                 <Checkbox id="rememberme1" v-model="checked" binary class="mr-2"></Checkbox>
-                                <label for="rememberme1">Remember me</label>
+                                <label for="rememberme1">Merken</label>
                             </div>
-                            <span class="font-medium no-underline ml-2 text-right cursor-pointer text-primary">Forgot password?</span>
+                            <span class="font-medium no-underline ml-2 text-right cursor-pointer text-primary">Passwort vergessen</span>
                         </div>
                         <Button as="router-link" class="w-full" label="Sign In" to="/"></Button>
                     </div>
