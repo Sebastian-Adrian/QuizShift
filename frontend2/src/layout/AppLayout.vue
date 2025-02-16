@@ -1,9 +1,24 @@
+<template>
+    <div :class="containerClass" class="layout-wrapper">
+        <app-topbar></app-topbar>
+        <app-sidebar></app-sidebar>
+        <div class="layout-main-container">
+            <div class="layout-main">
+                <router-view></router-view>
+            </div>
+            <app-footer></app-footer>
+        </div>
+        <div class="layout-mask animate-fadein"></div>
+    </div>
+    <Toast />
+</template>
 <script setup>
 import { useLayout } from '@/layout/composables/layout';
 import { computed, ref, watch } from 'vue';
-import AppFooter from './AppFooter.vue';
-import AppSidebar from './AppSidebar.vue';
-import AppTopbar from './AppTopbar.vue';
+import AppFooter from "@/layout/AppFooter.vue";
+import AppMenu from "@/layout/AppMenu.vue";
+import AppSidebar from "@/layout/AppSidebar.vue";
+import AppTopbar from "@/layout/AppTopbar.vue";
 
 const { layoutConfig, layoutState, isSidebarActive } = useLayout();
 
@@ -54,18 +69,3 @@ function isOutsideClicked(event) {
     return !(sidebarEl.isSameNode(event.target) || sidebarEl.contains(event.target) || topbarEl.isSameNode(event.target) || topbarEl.contains(event.target));
 }
 </script>
-
-<template>
-    <div :class="containerClass" class="layout-wrapper">
-        <app-topbar></app-topbar>
-        <app-sidebar></app-sidebar>
-        <div class="layout-main-container">
-            <div class="layout-main">
-                <router-view></router-view>
-            </div>
-            <app-footer></app-footer>
-        </div>
-        <div class="layout-mask animate-fadein"></div>
-    </div>
-    <Toast />
-</template>

@@ -8,10 +8,10 @@ import Fortschritt from "@/views/Fortschritt.vue";
     Globale Statistiken
     <div class="grid grid-cols-12 gap-8">
         <StatsWidget />
-        <div class="col-span-4 xl:col-span-6">
+        <div class="col-span-12 xl:col-span-6">
             <Rangliste />
         </div>
-        <div class="col-span-4 xl:col-span-6">
+        <div class="col-span-12 xl:col-span-6">
             <Fortschritt />
         </div>
     </div>
