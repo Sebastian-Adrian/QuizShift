@@ -4,6 +4,7 @@ import eu.sadrian.quizshift.dto.LoginDTO;
 import eu.sadrian.quizshift.model.Role;
 import eu.sadrian.quizshift.model.User;
 import eu.sadrian.quizshift.service.AuthService;
+import eu.sadrian.quizshift.service.TokenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,9 +18,9 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
 public class AuthController {
+
     private final AuthService authService;
-
-
+    private final TokenService tokenService;
 
     @PostMapping("/register")
     public ResponseEntity<User> register(@RequestParam String username,
@@ -47,6 +48,4 @@ public class AuthController {
             return ResponseEntity.status(401).body("Falscher Benutzername oder Passwort");
         }
     }
-    
-
 }

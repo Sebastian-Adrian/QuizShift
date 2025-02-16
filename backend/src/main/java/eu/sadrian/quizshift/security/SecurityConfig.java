@@ -1,4 +1,4 @@
-package eu.sadrian.quizshift.configuration;
+package eu.sadrian.quizshift.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,7 +12,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import java.util.List;
 
 @Configuration
-public class WebConfig {
+public class SecurityConfig {
 
     private CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
@@ -35,8 +35,19 @@ public class WebConfig {
                 .csrf(AbstractHttpConfigurer::disable) // Deaktiviert CSRF, falls nicht benötigt
                 .authorizeHttpRequests((authorizeHttpRequests) ->
                         authorizeHttpRequests
-                                // TODO ersetze permitAll mit .hasRole('User)
-                                .requestMatchers("/**").permitAll().anyRequest().authenticated());
+                                // Erlaube Registrierung und Login ohne Token
+                                .requestMatchers("/api/auth/register", "/api/auth/login").permitAll()
+                                // Alle anderen Endpunkte benötigen Authentifizierung
+                                .anyRequest().authenticated()
+                );
+                // Eigener Filter für Token-Prüfung
+                /*
+                .addFilterBefore(
+                        new OAuthFilter(),
+                        org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter.class
+                 */
+
+
         return http.build();
     }
 
