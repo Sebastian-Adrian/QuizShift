@@ -1,6 +1,6 @@
 import { createApp } from 'vue';
 import App from './App.vue';
-import router from './router';
+import index from './router';
 
 import Aura from '@primevue/themes/aura';
 import PrimeVue from 'primevue/config';
@@ -13,7 +13,7 @@ import '@/assets/tailwind.css';
 
 const app = createApp(App);
 
-app.use(router);
+app.use(index);
 app.use(PrimeVue, {
     theme: {
         preset: Aura,

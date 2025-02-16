@@ -65,7 +65,7 @@ function smoothScroll(id) {
             </li>
         </ul>
         <div class="flex border-t lg:border-t-0 border-surface py-4 lg:py-0 mt-4 lg:mt-0 gap-2">
-            <Button as="router-link" label="Login" rounded text to="/auth/login"></Button>
+            <Button as="index-link" label="Login" rounded text to="/auth/login"></Button>
             <Button label="Register" rounded to="/auth/login"></Button>
         </div>
     </div>

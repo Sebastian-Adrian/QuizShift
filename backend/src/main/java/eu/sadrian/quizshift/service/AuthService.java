@@ -1,13 +1,15 @@
 package eu.sadrian.quizshift.service;
 
 import eu.sadrian.quizshift.dto.LoginDTO;
-import eu.sadrian.quizshift.dto.RegisterDTO;
 import eu.sadrian.quizshift.model.Role;
 import eu.sadrian.quizshift.model.User;
 import eu.sadrian.quizshift.repository.UserRepository;
+import io.jsonwebtoken.security.Keys;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+
+import java.nio.charset.StandardCharsets;
+import java.security.Key;
 import java.util.Date;
 import org.springframework.stereotype.Service;
 
@@ -36,21 +38,21 @@ public class AuthService {
 
     public String login(LoginDTO loginDTO) {
         User user = userRepository.findByUsername(loginDTO.getUsername())
-                .orElseThrow(() -> new RuntimeException("Falscher Benutzername"));
+                .orElseThrow(() -> new RuntimeException("Falscher Benutzername oder Passwort"));
 
         if (!passwordEncoder.matches(loginDTO.getPassword(), user.getPassword())) {
-            throw new RuntimeException("Falsches Passwort");
+            throw new RuntimeException("Falscher Benutzername oder Passwort");
         }
-        System.out.println("Login successful");
+        // Schlüssel als SecretKey generieren
+        Key secretKey = Keys.hmacShaKeyFor(SECRET_KEY.getBytes(StandardCharsets.UTF_8));
+
         //token erstellen
-        // 1 day validity
-        // Replace "secret-key" with a secure key
         return Jwts.builder()
-                .setSubject(user.getUsername())
+                .subject(user.getUsername())
                 .claim("role", user.getRole().name())
-                .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + 86400000)) // 1 day validity
-                .signWith(SignatureAlgorithm.HS512, SECRET_KEY)
+                .issuedAt(new Date())
+                .expiration(new Date(System.currentTimeMillis() + 3600000)) // 1 Stunde
+                .signWith(secretKey)
                 .compact();
 
     }

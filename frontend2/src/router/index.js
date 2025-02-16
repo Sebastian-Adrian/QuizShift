@@ -6,7 +6,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import { useAuthStore } from '@/stores/auth.ts';
 
 
-const router = createRouter({
+const index = createRouter({
     history: createWebHistory(),
     routes: [
         {
@@ -47,7 +47,7 @@ const router = createRouter({
             path: '/auth/login',
             name: 'login',
             component: () => import('@/views/pages/auth/Login.vue'),
-            meta: { requiresAuth: false},
+
         },
         {
             path: '/login',
@@ -70,7 +70,7 @@ const router = createRouter({
 
 // Route Guard: Prüft, ob die Route Authentifizierung erfordert
 
-router.beforeEach((to, from, next) => {
+index.beforeEach((to, from, next) => {
     const authStore = useAuthStore();
     // Prüfen, ob die Route geschützt ist
     if (to.meta.requiresAuth && !authStore.isAuthenticated) {
@@ -82,4 +82,4 @@ router.beforeEach((to, from, next) => {
         next();
     }
 })
-export default router;
+export default index;

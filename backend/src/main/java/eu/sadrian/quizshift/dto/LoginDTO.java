@@ -1,7 +1,11 @@
 package eu.sadrian.quizshift.dto;
 
+import jakarta.validation.constraints.NotNull;
+
 public class LoginDTO {
+    @NotNull
     private String username;
+    @NotNull
     private String password;
 
     public String getUsername() {

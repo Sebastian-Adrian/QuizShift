@@ -44,7 +44,7 @@ public class AuthController {
         if (token != null) {
             return ResponseEntity.ok(token);
         } else {
-            return ResponseEntity.status(401).body("Invalid credentials");
+            return ResponseEntity.status(401).body("Falscher Benutzername oder Passwort");
         }
     }
     
