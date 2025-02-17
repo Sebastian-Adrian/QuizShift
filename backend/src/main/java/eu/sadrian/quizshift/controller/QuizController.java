@@ -18,13 +18,10 @@ public class QuizController {
         this.quizService = quizService;
     }
 
-    // Aggregate root
-    // tag::get-aggregate-root[]
     @GetMapping
     List<Quiz> all() {
         return quizService.getAllQuizzes();
     }
-    // end::get-aggregate-root[]
 
     @GetMapping("/{id}")
     public ResponseEntity<Quiz> getQuizById(@PathVariable Long id) {

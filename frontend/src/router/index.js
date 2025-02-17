@@ -75,7 +75,6 @@ const index = createRouter({
 });
 
 // Route Guard: Prüft, ob die Route Authentifizierung erfordert
-
 index.beforeEach((to, from, next) => {
     const authStore = useAuthStore();
     // Prüfen, ob die Route geschützt ist
@@ -83,7 +82,7 @@ index.beforeEach((to, from, next) => {
         next({ name: 'login' });
         // Benutzer ist eingeloggt und versucht die Login-Seite zu erreichen → Weiterleitung zur Startseite
     } else if (to.name === 'login' && authStore.isAuthenticated) {
-        next({ name: 'dashboard' });
+        next({name: 'dashboard'});
     } else {
         next();
     }

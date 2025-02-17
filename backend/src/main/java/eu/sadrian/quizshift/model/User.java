@@ -23,6 +23,15 @@ public class User {
     @Column(unique = true, nullable = false)
     private String email;
 
+    @Column()
+    private int total_xp = 0;
+
+    @Column()
+    private int current_level = 1;
+
+    @Column()
+    private int total_coins = 0;
+
     @Setter
     @Column(unique = false, nullable = false)
     private Role role;

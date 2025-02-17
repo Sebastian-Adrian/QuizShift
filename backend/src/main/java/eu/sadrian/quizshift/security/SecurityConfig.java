@@ -38,6 +38,7 @@ public class SecurityConfig {
         return new OAuthFilter(this.tokenRepository);
     }
 
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
