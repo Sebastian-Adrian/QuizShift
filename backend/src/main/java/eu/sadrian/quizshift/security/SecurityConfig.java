@@ -3,6 +3,7 @@ package eu.sadrian.quizshift.security;
 import eu.sadrian.quizshift.repository.TokenRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
@@ -33,8 +34,8 @@ public class SecurityConfig {
     }
 
     @Bean
-    public OAuthFilter OAuthFilter(TokenRepository tokenRepository) {
-        return new OAuthFilter(tokenRepository);
+    public OAuthFilter OAuthFilter() {
+        return new OAuthFilter(this.tokenRepository);
     }
 
     @Bean
@@ -42,19 +43,23 @@ public class SecurityConfig {
         http
                 // Aktiviert die CORS-Konfiguration
                 .cors(corsConfigurer -> corsConfigurer.configurationSource(corsConfigurationSource()))
+                // Deaktiviert CSRF, falls nicht benötigt
+                .csrf(AbstractHttpConfigurer::disable)
+                // Anonyme Authentifizierung deaktivieren
+                .anonymous(AbstractHttpConfigurer::disable)
 
-                .csrf(AbstractHttpConfigurer::disable) // Deaktiviert CSRF, falls nicht benötigt
                 .authorizeHttpRequests((authorizeHttpRequests) ->
                         authorizeHttpRequests
+                                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                                 // Erlaube Registrierung und Login ohne Token
-                                .requestMatchers("/api/auth/register", "/api/auth/login", "/dashboard").permitAll()
+                                .requestMatchers("/api/auth/register", "/api/auth/login", "/dashboard", "/error").permitAll()
                                 // Alle anderen Endpunkte benötigen Authentifizierung
                                 .anyRequest().authenticated()
                 )
                 // Eigener Filter für Token-Prüfung
 
                 .addFilterBefore(
-                        OAuthFilter(tokenRepository),
+                        OAuthFilter(),
                         org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter.class);
 
         return http.build();

@@ -13,7 +13,7 @@ const password = ref('');
 const checked = ref(false); // Für den "Merken"-Checkbox
 
 // Fehlerstatus
-const error = ref(null);
+const errorStatus = ref(null);
 
 // Router-Instanz
 const router = useRouter();
@@ -24,7 +24,7 @@ const authStore = useAuthStore();
 // Funktion zur Anmeldung
 const loginUser = async () => {
     try {
-        error.value = null; // Fehler zurücksetzen
+        errorStatus.value = null; // Fehler zurücksetzen
         const response = await api.post('/auth/login', {
             username: username.value,
             password: password.value,
@@ -40,12 +40,13 @@ const loginUser = async () => {
         axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
         // Weiterleitung (z. B. zur Startseite)
         await router.push("/");
-    } catch (err) {
+    } catch (error) {
+        console.log(error);
         // Fehlerbehandlung
-        if (err.response && err.response.status === 401) {
-            error.value = "Ungültige Anmeldedaten.";
+        if (error.response && error.response.status === 401) {
+            errorStatus.value = "Ungültige Anmeldedaten.";
         } else {
-            error.value = "Ein Fehler ist aufgetreten. Bitte später erneut versuchen.";
+            errorStatus.value = "Ein Fehler ist aufgetreten. Bitte später erneut versuchen.";
         }
     }
 };
@@ -89,7 +90,7 @@ const loginUser = async () => {
                             <span class="font-medium no-underline ml-2 text-right cursor-pointer text-primary">Passwort vergessen</span>
                         </div>
                         <Button class="w-full" label="Sign In" @click="loginUser" />
-                        <p v-if="error" class="text-red-500 mt-4">{{ error }}</p>
+                        <p v-if="errorStatus" class="text-red-500 mt-4">{{ errorStatus }}</p>
                     </div>
                 </div>
             </div>

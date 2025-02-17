@@ -1,7 +1,7 @@
 <script setup>
 import StatsWidget from '@/components/dashboard/StatsWidget.vue';
-import Rangliste from "@/views/Rangliste.vue";
-import Fortschritt from "@/views/Fortschritt.vue";
+import Rangliste from "@/views/stats/Rangliste.vue";
+import Fortschritt from "@/views/stats/Fortschritt.vue";
 </script>
 
 <template>

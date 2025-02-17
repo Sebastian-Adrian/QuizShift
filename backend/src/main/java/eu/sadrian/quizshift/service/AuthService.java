@@ -5,6 +5,7 @@ import eu.sadrian.quizshift.model.Role;
 import eu.sadrian.quizshift.model.User;
 import eu.sadrian.quizshift.repository.TokenRepository; // Repository für Speicherung von Tokens
 import eu.sadrian.quizshift.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -33,6 +34,12 @@ public class AuthService {
         );
     }
 
+    /**
+     * Diese Methode führt den Login durch und speichert das erzeugte Token in der Datenbank.
+     * Sie ist mit @Transactional markiert, um sicherzustellen, dass alle Datenbankoperationen
+     * im Rahmen einer Transaktion ausgeführt werden.
+     */
+    @Transactional
     public String login(LoginDTO loginDTO) {
         User user = userRepository.findByUsername(loginDTO.getUsername())
                 .orElseThrow(() -> new RuntimeException("Falscher Benutzername oder Passwort"));

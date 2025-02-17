@@ -11,11 +11,11 @@ const model = ref([
     {
         label: 'Erfolge ?',
         items: [
-            { label: 'Achievements', icon: 'pi pi-fw pi-trophy', to: '/pages/achievements' },
-            { label: 'Fortschritt', icon: 'pi pi-fw pi-star', to: '/pages/fortschritt' },
-            { label: 'Rangliste', icon: 'pi pi-fw pi-crown', to: '/pages/rangliste', class: 'rotated-icon' },
-            { label: 'Coins / Punkte', icon: 'pi pi-fw pi-money-bill', to: '/pages/coins' },
-            { label: 'Powerups', icon: 'pi pi-fw pi-clock', to: '/pages/powerups' },
+            { label: 'Achievements', icon: 'pi pi-fw pi-trophy', to: '/achievements' },
+            { label: 'Fortschritt', icon: 'pi pi-fw pi-star', to: '/fortschritt' },
+            { label: 'Rangliste', icon: 'pi pi-fw pi-crown', to: '/rangliste', class: 'rotated-icon' },
+            { label: 'Coins / Punkte', icon: 'pi pi-fw pi-money-bill', to: '/coins' },
+            { label: 'Powerups', icon: 'pi pi-fw pi-clock', to: '/powerups' },
         ]
     },
     {
@@ -26,22 +26,22 @@ const model = ref([
             {
                 label: 'Quiz',
                 icon: 'pi pi-fw pi-globe',
-                to: '/pages/quiz'
+                to: '/quiz'
             },
             {
                 label: 'Lernen',
                 icon: 'pi pi-fw pi-graduation-cap',
-                to: '/pages/lernen'
+                to: '/lernen'
             },
             {
                 label: 'Not Found',
                 icon: 'pi pi-fw pi-exclamation-circle',
-                to: '/pages/notfound'
+                to: '/notfound'
             },
             {
                 label: 'Empty',
                 icon: 'pi pi-fw pi-circle-off',
-                to: '/pages/empty'
+                to: '/empty'
             },
         ]
     },

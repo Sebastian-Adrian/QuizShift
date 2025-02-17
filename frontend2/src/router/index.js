@@ -16,18 +16,27 @@ const index = createRouter({
                     path: '/',
                     name: 'dashboard',
                     component: () => import('@/views/Dashboard.vue'),
-                    meta: { requiresAuth: true }
+                    meta: {requiresAuth: true}
                 },
                 {
-                    path: '/pages/empty',
+                    path: '/empty',
                     name: 'empty',
                     component: () => import('@/views/pages/Empty.vue')
                 },
                 {
                     path: '/documentation',
                     name: 'documentation',
-                    component: () => import('@/views/pages/Documentation.vue')
+                    component: () => import('@/views/pages/Documentation.vue'),
+                    meta: {requiresAuth: true}
+                },
+                {
+                    path: '/achievements',
+                    name: 'achievements',
+                    component: () => import('@/views/pages/erfolge/Achievements.vue'),
+                    meta: {requiresAuth: true}
                 }
+
+
             ]
         },
         {
@@ -36,7 +45,7 @@ const index = createRouter({
             component: () => import('@/views/pages/Landing.vue')
         },
         {
-            path: '/pages/notfound',
+            path: '/notfound',
             name: 'notfound',
             component: () => import('@/views/pages/NotFound.vue')
         },
