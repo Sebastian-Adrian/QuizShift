@@ -1,10 +1,8 @@
 import AppLayout from '@/layout/AppLayout.vue';
 import LoginPage from '@/views/pages/auth/Login.vue'; // Login-Seite
 
-
 import { createRouter, createWebHistory } from 'vue-router';
 import { useAuthStore } from '@/stores/auth.ts';
-
 
 const index = createRouter({
     history: createWebHistory(),
@@ -12,13 +10,13 @@ const index = createRouter({
         {
             path: '/',
             component: AppLayout,
-            meta: { requiresAuth: false},
+            meta: { requiresAuth: false },
             children: [
                 {
                     path: '/',
                     name: 'dashboard',
                     component: () => import('@/views/Dashboard.vue'),
-                    meta: { requiresAuth: true},
+                    meta: { requiresAuth: true }
                 },
                 {
                     path: '/pages/empty',
@@ -46,13 +44,12 @@ const index = createRouter({
         {
             path: '/auth/login',
             name: 'login',
-            component: () => import('@/views/pages/auth/Login.vue'),
-
+            component: () => import('@/views/pages/auth/Login.vue')
         },
         {
             path: '/login',
             name: 'Login',
-            component: LoginPage,
+            component: LoginPage
         },
 
         {
@@ -75,11 +72,11 @@ index.beforeEach((to, from, next) => {
     // Prüfen, ob die Route geschützt ist
     if (to.meta.requiresAuth && !authStore.isAuthenticated) {
         next({ name: 'login' });
-    // Benutzer ist eingeloggt und versucht die Login-Seite zu erreichen → Weiterleitung zur Startseite
+        // Benutzer ist eingeloggt und versucht die Login-Seite zu erreichen → Weiterleitung zur Startseite
     } else if (to.name === 'login' && authStore.isAuthenticated) {
         next({ name: 'dashboard' });
     } else {
         next();
     }
-})
+});
 export default index;

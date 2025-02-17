@@ -14,7 +14,7 @@ import java.util.UUID;
 public class AuthService {
 
     private final UserRepository userRepository;
-    private final TokenRepository tokenRepository; // Repository zur Speicherung der Token-Informationen
+    private final TokenRepository tokenRepository;
     private final PasswordEncoder passwordEncoder;
 
     public AuthService(UserRepository userRepository, TokenRepository tokenRepository, PasswordEncoder passwordEncoder) {

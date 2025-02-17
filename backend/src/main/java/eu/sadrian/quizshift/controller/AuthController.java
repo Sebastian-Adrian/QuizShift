@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
 
     private final AuthService authService;
-    private final TokenService tokenService;
 
     @PostMapping("/register")
     public ResponseEntity<User> register(@RequestParam String username,
@@ -29,7 +28,6 @@ public class AuthController {
         User user = authService.registerUser(username, password, role);
         return ResponseEntity.ok(user);
     }
-
 
     /**
      * Handles user authentication by validating login credentials and

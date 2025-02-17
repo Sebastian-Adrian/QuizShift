@@ -18,7 +18,6 @@ public class OAuthFilter extends OncePerRequestFilter {
     private final TokenRepository tokenRepository;
 
     public OAuthFilter(TokenRepository tokenRepository) {
-
         this.tokenRepository = tokenRepository;
     }
 
