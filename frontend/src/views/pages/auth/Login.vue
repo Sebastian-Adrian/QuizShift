@@ -7,24 +7,17 @@ import { useAuthStore } from "@/stores/auth";
 import { useRouter } from "vue-router";
 import axios from "axios"; // Pinia Store für Authentifizierung
 
-// Datenfelder für Eingaben
 const username = ref('');
 const password = ref('');
 const checked = ref(false); // Für den "Merken"-Checkbox
-
-// Fehlerstatus
 const errorStatus = ref(null);
-
-// Router-Instanz
 const router = useRouter();
-
-// Zugriff auf den Auth-Store
 const authStore = useAuthStore();
 
-// Funktion zur Anmeldung
+
 const loginUser = async () => {
     try {
-        errorStatus.value = null; // Fehler zurücksetzen
+        errorStatus.value = null;
         const response = await api.post('/auth/login', {
             username: username.value,
             password: password.value,
@@ -38,11 +31,9 @@ const loginUser = async () => {
         });
         // Token als Standard-Header für alle zukünftigen Anfragen setzen
         axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-        // Weiterleitung (z. B. zur Startseite)
         await router.push("/");
     } catch (error) {
         console.log(error);
-        // Fehlerbehandlung
         if (error.response && error.response.status === 401) {
             errorStatus.value = "Ungültige Anmeldedaten.";
         } else {

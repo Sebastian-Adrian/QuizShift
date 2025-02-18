@@ -2,9 +2,9 @@
 import { ref } from 'vue';
 
 const dropdownItems = ref([
-    { name: 'Option 1', code: 'Option 1' },
-    { name: 'Option 2', code: 'Option 2' },
-    { name: 'Option 3', code: 'Option 3' }
+    { name: 'Options 1', code: 'Options 1' },
+    { name: 'Options 2', code: 'Options 2' },
+    { name: 'Options 3', code: 'Options 3' }
 ]);
 
 const dropdownItem = ref(null);

@@ -13,7 +13,7 @@ public class Achievements {
 
     @Id
     @GeneratedValue
-    private Long id;
+    private int id;
 
     @Column(unique = true, length = 50)
     private String code;

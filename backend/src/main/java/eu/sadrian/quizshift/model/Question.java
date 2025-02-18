@@ -18,8 +18,8 @@ public class Question {
 
     private String text;
 
-    @ElementCollection
-    private List<String> options;
+    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Options> options;
 
     private int correctAnswerIndex;
 
