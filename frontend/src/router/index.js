@@ -16,7 +16,7 @@ const index = createRouter({
                     path: '/',
                     name: 'dashboard',
                     component: () => import('@/views/Dashboard.vue'),
-                    meta: {requiresAuth: true}
+                    meta: { requiresAuth: true }
                 },
                 {
                     path: '/empty',
@@ -27,16 +27,19 @@ const index = createRouter({
                     path: '/documentation',
                     name: 'documentation',
                     component: () => import('@/views/pages/Documentation.vue'),
-                    meta: {requiresAuth: true}
+                    meta: { requiresAuth: true }
                 },
                 {
                     path: '/achievements',
                     name: 'achievements',
                     component: () => import('@/views/pages/erfolge/Achievements.vue'),
-                    meta: {requiresAuth: true}
+                    meta: { requiresAuth: true }
+                },
+                {
+                    path: '/quiz',
+                    name: 'quiz',
+                    component: () => import('@/views/pages/skill/Quiz.vue')
                 }
-
-
             ]
         },
         {
@@ -82,7 +85,7 @@ index.beforeEach((to, from, next) => {
         next({ name: 'login' });
         // Benutzer ist eingeloggt und versucht die Login-Seite zu erreichen → Weiterleitung zur Startseite
     } else if (to.name === 'login' && authStore.isAuthenticated) {
-        next({name: 'dashboard'});
+        next({ name: 'dashboard' });
     } else {
         next();
     }
