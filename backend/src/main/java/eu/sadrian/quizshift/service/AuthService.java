@@ -9,6 +9,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Service
@@ -25,7 +26,7 @@ public class AuthService {
     }
 
     public User registerUser(String username, String password, Role role) {
-        return null; // User-Registrierungslogik hier implementieren
+        return null; // TODO: User-Registrierungslogik hier implementieren
     }
 
     public User findByUsername(String username) {
@@ -50,11 +51,12 @@ public class AuthService {
 
         // Generiere das Opaque Token
         String opaqueToken = UUID.randomUUID().toString();
+        tokenRepository.saveToken(
+                opaqueToken,
+                user.getUsername(),
+                user.getRole().name(),
+                LocalDateTime.now().plusHours(1));
 
-        // Token und zugehörige Daten speichern
-        tokenRepository.saveToken(opaqueToken, user.getUsername(), user.getRole().name());
-
-        // Das Token zurückgeben
         return opaqueToken;
     }
 }

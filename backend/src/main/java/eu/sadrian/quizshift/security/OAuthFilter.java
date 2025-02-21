@@ -35,7 +35,6 @@ public class OAuthFilter extends OncePerRequestFilter {
 
         String authorizationHeader = request.getHeader("Authorization");
         if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
-            System.out.println("Auth header:");
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Authorization Header fehlt oder ist ungültig");
             return;
         }
@@ -43,27 +42,27 @@ public class OAuthFilter extends OncePerRequestFilter {
         String tokenValue = authorizationHeader.substring(7);
 
         tokenRepository.findByTokenValue(tokenValue).ifPresentOrElse(token -> {
-            if (token.getExpiration().isBefore(LocalDateTime.now())) {
-                SecurityContextHolder.clearContext();
-                try {
-                    response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Token ist abgelaufen");
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
-                }
-                return;
-            }
+                    if (token.getExpiration().isBefore(LocalDateTime.now())) {
+                        SecurityContextHolder.clearContext();
+                        try {
+                            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Token ist abgelaufen");
+                        } catch (IOException ex) {
+                            throw new RuntimeException(ex);
+                        }
+                        return;
+                    }
 
-            // Benutzerkontext setzen
-            UsernamePasswordAuthenticationToken authentication =
-                    new UsernamePasswordAuthenticationToken(token.getUsername(), null, null);
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-        }, () -> {
-            try {
-                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Ungültiges Token");
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        });
+                    // Benutzerkontext setzen
+                    UsernamePasswordAuthenticationToken authentication =
+                            new UsernamePasswordAuthenticationToken(token.getUsername(), null, null);
+                    SecurityContextHolder.getContext().setAuthentication(authentication);
+                }, () -> {
+                    try {
+                        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Ungültiges Token");
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
 
         // Weiter zum nächsten Filter, falls alles gültig ist
         filterChain.doFilter(request, response);

@@ -53,12 +53,11 @@ public class SecurityConfig {
                         authorizeHttpRequests
                                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                                 // Erlaube Registrierung und Login ohne Token
-                                .requestMatchers("/api/auth/register", "/api/auth/login", "/dashboard", "/error").permitAll()
+                                .requestMatchers("/api/auth/register", "/api/auth/login","/error").permitAll()
                                 // Alle anderen Endpunkte benötigen Authentifizierung
                                 .anyRequest().authenticated()
                 )
                 // Eigener Filter für Token-Prüfung
-
                 .addFilterBefore(
                         OAuthFilter(),
                         org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter.class);

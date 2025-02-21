@@ -9,7 +9,7 @@ import axios from "axios"; // Pinia Store für Authentifizierung
 
 const username = ref('');
 const password = ref('');
-const checked = ref(false); // Für den "Merken"-Checkbox
+const checked = ref(false); // "Merken"-Checkbox
 const errorStatus = ref(null);
 const router = useRouter();
 const authStore = useAuthStore();
