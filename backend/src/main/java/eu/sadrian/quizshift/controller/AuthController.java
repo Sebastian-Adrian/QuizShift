@@ -30,12 +30,13 @@ public class AuthController {
     }
 
     /**
-     * Handles user authentication by validating login credentials and
-     * generating a JWT token upon successful authentication.
+     * Authenticates a user based on the provided login credentials.
+     * If authentication is successful, a token is returned. If the credentials are invalid,
+     * a 401 response is returned with an appropriate message.
      *
-     * @param loginDTO contains the user's login credentials (username and password).
-     * @return a ResponseEntity containing the JWT token if authentication is successful,
-     * or a 401 Unauthorized response with an error message if authentication fails.
+     * @param loginDTO the login data transfer object containing the username and password
+     * @return a ResponseEntity containing the authentication token if successful,
+     *         or a 401 status with an error message otherwise
      */
     @PostMapping("/login")
     public ResponseEntity<String> authenticate(@RequestBody LoginDTO loginDTO) {

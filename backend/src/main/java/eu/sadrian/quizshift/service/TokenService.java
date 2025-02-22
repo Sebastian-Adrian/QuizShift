@@ -1,7 +1,10 @@
 package eu.sadrian.quizshift.service;
 
+import eu.sadrian.quizshift.model.Token;
 import eu.sadrian.quizshift.repository.TokenRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class TokenService {
@@ -12,29 +15,9 @@ public class TokenService {
         this.tokenRepository = tokenRepository;
     }
 
-    public String generateToken() {
-        return null;
+    public boolean verifyToken(String token) {
+        Optional<Token> tokenObj = tokenRepository.findByTokenValue(token);
+
+        return tokenObj.isPresent() && tokenObj.get().getExpiration().isAfter(java.time.LocalDateTime.now());
     }
-
-    public boolean validateToken(String token) {
-        return false;
-    }
-
-    public String getUsernameFromToken(String token) {
-        return null;
-    }
-
-    public String getRoleFromToken(String token) {
-        return null;
-    }
-
-    public String refreshToken(String token) {
-        return null;
-    }
-
-    public void deleteToken(String token) {
-
-    }
-
-
 }

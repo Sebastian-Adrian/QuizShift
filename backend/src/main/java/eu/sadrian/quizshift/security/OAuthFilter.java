@@ -25,7 +25,7 @@ public class OAuthFilter extends OncePerRequestFilter {
     protected boolean shouldNotFilter(HttpServletRequest request) {
         // Endpunkte, die ignoriert werden sollen
         String path = request.getServletPath();
-        return path.equals("/api/auth/login") || path.equals("/api/auth/register");
+        return path.equals("/api/auth/login") || path.equals("/api/auth/register") || path.equals("/api/token/verify");
     }
 
     @Override

@@ -53,7 +53,11 @@ public class SecurityConfig {
                         authorizeHttpRequests
                                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                                 // Erlaube Registrierung und Login ohne Token
-                                .requestMatchers("/api/auth/register", "/api/auth/login","/error").permitAll()
+                                .requestMatchers(
+                                        "/api/auth/register",
+                                        "/api/auth/login",
+                                        "/error",
+                                        "/api/token/verify").permitAll()
                                 // Alle anderen Endpunkte benötigen Authentifizierung
                                 .anyRequest().authenticated()
                 )
