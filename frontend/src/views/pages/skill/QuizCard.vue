@@ -3,7 +3,7 @@
 </script>
 
 <template>
-    <Card style="width: 60rem; overflow: hidden">
+    <Card style="max-width: 60rem; overflow: hidden">
         <template #header>
             <img alt="user header" src="https://primefaces.org/cdn/primevue/images/usercard.png" />
         </template>
@@ -29,7 +29,7 @@
             </div>
         </template>
         <template #footer>
-            <div class="flex gap-4 mt-1">
+            <div class="flex gap-4 right-0">
                 <Button label="Abbrechen" raised severity="danger" />
                 <Button label="OK" raised severity="success" />
             </div>
@@ -79,7 +79,7 @@ $activeShadow: 0 0 10px rgba($teal1, .5);
         position: relative; display: flex;
         justify-content: left;
         align-items: center;
-        border: solid 1px #DDD; background-color: #FFF;
+        border: solid 1px #DDD;
         box-shadow: 0 0 0 rgba(255,255,255,0);
         transition:   border-color .15s ease-out,
         color .25s ease-out,
@@ -118,24 +118,29 @@ $activeShadow: 0 0 10px rgba($teal1, .5);
         font-weight: bold;
         margin-right: 0.5rem;
         padding: 0.4rem 0.8rem;
-        color: #486d9a; /* Nummernfarbe */
+        color: #5988bf; /* Nummernfarbe */
         background-color: $teal2;
         border: solid 1px #DDD;
         border-radius: 5px;
     }
 
     /* Ersetzt die Nummer durch ein Icon, wenn ausgewählt */
-    input:checked + label::before {
+    input:checked + label::after {
         content: '\2713'; /* Unicode für ein Häkchen-Icon */
         color: white;
-        background-color: #000000;
-        padding: 0.2rem 0.5rem;
-        border-radius: 50%; /* Rundes Icon */
+        background-color: $teal2;
+        padding: 0.1rem 0.3rem;
+        border-radius: 20%; /* Rundes Icon */
         font-size: 1rem;
         display: inline-block;
         width: 1.5rem;
         height: 1.5rem;
-        text-align: center;
+
+        margin-right: 1rem;
+        position: absolute; /* relative vom Container */
+        right: 0; /* Ganz rechts */
+        top: 50%; /* Zentriert zur Vertikalen */
+        transform: translateY(-50%); /* Für exakte Zentrierung */
     }
 
     @include breakpoint(800) {
