@@ -7,10 +7,10 @@ import lombok.Setter;
 import java.util.UUID;
 
 @Entity
-@Table(name = "options")
+@Table(name = "option")
 @Getter
 @Setter
-public class Options {
+public class Option {
 
 
     @Id

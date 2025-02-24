@@ -17,9 +17,10 @@ public class Question {
     private UUID id;
 
     private String text;
+    private String imageUrl;
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Options> options;
+    private List<Option> options;
 
     private int correctAnswerIndex;
 
