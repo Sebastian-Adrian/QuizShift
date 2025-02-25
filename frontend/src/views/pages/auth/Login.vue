@@ -30,7 +30,7 @@ const loginUser = async () => {
             username: username.value,
         });
         // Token als Standard-Header für alle zukünftigen Anfragen setzen
-        axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+        api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
         await router.push("/");
     } catch (error) {
         console.log(error);

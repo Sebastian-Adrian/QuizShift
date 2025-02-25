@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -18,8 +19,10 @@ public class Quiz {
     private String title;
     private String description;
 
+    @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Question> questionsList;
+
     @ManyToOne
     @JoinColumn(name = "creator_id")
     private User creator;
-
 }

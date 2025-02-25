@@ -39,4 +39,8 @@ public class QuizService {
     public Quiz createQuiz(Quiz quiz) {
         return null;
     }
+
+    public Quiz getQuizWithDetails(Long id) {
+        return null;
+    }
 }

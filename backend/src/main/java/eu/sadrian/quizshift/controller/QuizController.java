@@ -3,6 +3,7 @@ package eu.sadrian.quizshift.controller;
 import eu.sadrian.quizshift.model.Quiz;
 import eu.sadrian.quizshift.service.QuizService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,16 +19,24 @@ public class QuizController {
         this.quizService = quizService;
     }
 
-    @GetMapping
+    @GetMapping()
     List<Quiz> all() {
         return quizService.getAllQuizzes();
     }
 
+    /*
     @GetMapping("/{id}")
     public ResponseEntity<Quiz> getQuizById(@PathVariable Long id) {
         return quizService.getQuizById(id)
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+     */
+
+    @GetMapping("/{id}")
+    public Quiz getQuiz(@PathVariable Long id) {
+        return quizService.getQuizWithDetails(id);
     }
 
     @PostMapping

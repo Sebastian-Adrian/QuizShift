@@ -7,7 +7,12 @@ const optionList = ref([]);
 
 
 onMounted(async () => {
-    optionList.value = await api.get("/api/");
+    try {
+        optionList.value = await api.get("/quiz");
+        console.log(optionList.value);
+    } catch (error) {
+        console.log(error);
+    }
 })
 
 </script>
