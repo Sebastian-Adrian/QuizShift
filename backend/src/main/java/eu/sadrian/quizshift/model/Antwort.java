@@ -7,10 +7,10 @@ import lombok.Setter;
 import java.util.UUID;
 
 @Entity
-@Table(name = "option")
+@Table(name = "antwort")
 @Getter
 @Setter
-public class Option {
+public class Antwort {
 
 
     @Id
@@ -18,7 +18,7 @@ public class Option {
     private UUID id;
 
     private String text;
-    private String imageUrl;
+    private boolean isCorrect;
 
     @ManyToOne
     @JoinColumn(name = "question_id")

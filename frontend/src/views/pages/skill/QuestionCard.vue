@@ -1,5 +1,15 @@
 <script setup>
 
+import {onMounted, ref} from "vue";
+import api from "@/api/api";
+
+const optionList = ref([]);
+
+
+onMounted(async () => {
+    optionList.value = await api.get("/api/");
+})
+
 </script>
 
 <template>

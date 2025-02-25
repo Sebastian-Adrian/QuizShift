@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue';
-import QuizCard from "@/views/pages/skill/QuizCard.vue";
+import QuestionCard from "@/views/pages/skill/QuestionCard.vue";
 
 const popover = ref();
 const selectedQuizType = ref(null);
@@ -9,8 +9,8 @@ const quizType = ref(['Multiple Choice', 'Single Choice']);
 
 <template>
     <div class="card">
-        <QuizCard>
-        </QuizCard>
+        <QuestionCard>
+        </QuestionCard>
     </div>
 </template>
 

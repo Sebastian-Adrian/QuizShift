@@ -17,12 +17,13 @@ public class Question {
     private UUID id;
 
     private String text;
-    private String imageUrl;
+    private String imageURL;
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Option> options;
+    private List<Antwort> options;
 
-    private int correctAnswerIndex;
+    @Enumerated(EnumType.STRING)
+    private QuestionType type;
 
     @ManyToOne
     @JoinColumn(name = "quiz_id")
