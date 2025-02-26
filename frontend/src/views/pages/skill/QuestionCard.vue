@@ -8,6 +8,9 @@ const optionList = ref([]);
 
 onMounted(async () => {
     try {
+        const token = localStorage.getItem("token");
+        api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+
         optionList.value = await api.get("/quiz");
         console.log(optionList.value);
     } catch (error) {

@@ -22,7 +22,4 @@ public class Quiz {
     @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Question> questionsList;
 
-    @ManyToOne
-    @JoinColumn(name = "creator_id")
-    private User creator;
 }

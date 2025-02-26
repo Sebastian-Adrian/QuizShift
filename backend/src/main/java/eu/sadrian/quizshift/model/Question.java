@@ -1,5 +1,6 @@
 package eu.sadrian.quizshift.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,13 +21,14 @@ public class Question {
     private String imageURL;
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Antwort> options;
+    private List<Antwort> antworten;
 
     @Enumerated(EnumType.STRING)
     private QuestionType type;
 
     @ManyToOne
     @JoinColumn(name = "quiz_id")
+    @JsonIgnore
     private Quiz quiz;
 
 }
