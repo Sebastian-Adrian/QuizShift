@@ -27,8 +27,6 @@ onMounted(async () => {
             description: data.description,
             questions: data.questions
         };
-
-        console.log(quiz.value);
     } catch (error) {
         console.error('Fehler beim Abrufen der Daten:', error);
     }
@@ -56,12 +54,10 @@ const nextQuestion = () => {
                 {{ quiz.questions[currentQuestionIndex].text }}
             </p>
             <div class="toggle">
-                <!--
-                <div v-for="(answer, index) in quiz.questions[currentQuestionIndex].antworten" :key="index" class="p-2">
-                    <input id="sizeWeight" name="sizeBy" type="radio" value="dimensions" />
-                    <label for="sizeWeight">{{ answer.text }}</label>
+                <div v-for="(answer, index) in quiz.questions[currentQuestionIndex].antworten" :key="index" >
+                    <input :id="'answer-' + index" :name="'question-' + currentQuestionIndex" :value="answer.text" type="radio"/>
+                    <label :for="'answer-' + index">{{ answer.text }}</label>
                 </div>
-                -->
             </div>
         </template>
         <template #footer>
@@ -113,50 +109,50 @@ $activeShadow: 0 0 10px rgba($teal1, 0.5);
 .toggle {
     margin: 1.5rem 0 1.5rem;
     box-sizing: border-box;
-    font-size: 0;
     display: flex;
     flex-wrap: wrap;
-    justify-content: flex-start;
-    align-items: stretch;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
     gap: 1rem;
+
+    div {
+        max-height: 5rem;
+        flex: 0 0 calc(50% - 0.5rem);
+
+        input + label {
+            margin-right: 0;
+            padding: 0.75rem 1rem;
+            box-sizing: border-box;
+            position: relative;
+            display: flex;
+            align-items: center;
+            border: solid 1px #ddd;
+            box-shadow: 0 0 0 rgba(255, 255, 255, 0);
+            transition:
+                border-color 0.15s ease-out,
+                color 0.25s ease-out,
+                background-color 0.15s ease-out,
+                box-shadow 0.15s ease-out;
+            border-radius: 6px;
+            font-size: 1rem;
+            line-height: 1.2;
+            font-weight: 600;
+            text-align: left;
+            /* Textfluss ermöglichen */
+            white-space: normal; /* Standardmäßig ist dies "nowrap", kann also geändert werden */
+            word-wrap: break-word; /* Für ältere Browser */
+            word-break: break-word; /* Lange Wörter brechen bei Bedarf */
+            overflow-wrap: break-word;
+
+
+        }
+    }
+
     input {
         @include hideInput;
     }
-    input + label {
-        margin: 0;
-        padding: 0.75rem 1rem;
-        box-sizing: border-box;
-        position: relative;
-        display: flex;
-        justify-content: left;
-        align-items: center;
-        border: solid 1px #ddd;
-        box-shadow: 0 0 0 rgba(255, 255, 255, 0);
-        transition:
-            border-color 0.15s ease-out,
-            color 0.25s ease-out,
-            background-color 0.15s ease-out,
-            box-shadow 0.15s ease-out;
-        border-radius: 6px;
 
-        font-size: 1rem;
-        line-height: 1.2;
-        font-weight: 600;
-        text-align: left;
-        /* Textfluss ermöglichen */
-        white-space: normal; /* Standardmäßig ist dies "nowrap", kann also geändert werden */
-        word-wrap: break-word; /* Für ältere Browser */
-        word-break: break-word; /* Lange Wörter brechen bei Bedarf */
-        overflow-wrap: break-word;
-
-        /* Setze eine max. Breite für Umbrüche */
-        max-width: 50%; /* Anpassbar, z. B. 50% für 2 Spalten */
-        width: calc(50% - 0.5rem); /* Breite pro flex-Element */
-        max-height: 5rem;
-
-        /* Flex-Wert: je zwei Elemente pro Zeile */
-        flex: 0 0 calc(50% - 0.5rem);
-    }
     input:hover + label {
         border-color: $darkNavy;
     }
@@ -189,14 +185,13 @@ $activeShadow: 0 0 10px rgba($teal1, 0.5);
         color: white;
         background-color: $teal2;
         padding: 0.1rem 0.3rem;
-        border-radius: 20%; /* Rundes Icon */
+        margin-right: 1rem;
+        border-radius: 20%;
         font-size: 1rem;
         display: inline-block;
         width: 1.5rem;
         height: 1.5rem;
-
-        margin-right: 1rem;
-        position: absolute; /* relative vom Container */
+        position: absolute;
         right: 0; /* Ganz rechts */
         top: 50%; /* Zentriert zur Vertikalen */
         transform: translateY(-50%); /* Für exakte Zentrierung */
