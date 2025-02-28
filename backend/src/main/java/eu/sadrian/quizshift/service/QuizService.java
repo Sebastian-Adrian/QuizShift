@@ -43,4 +43,8 @@ public class QuizService {
     public Quiz getQuizWithDetails(Long id) {
         return null;
     }
+
+    public List<Quiz> getAllQuizzesWithDetails() {
+        return quizRepository.getAllQuizzesWithDetails();
+    }
 }

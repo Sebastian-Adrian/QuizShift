@@ -19,12 +19,6 @@ public class QuizController {
         this.quizService = quizService;
     }
 
-    @GetMapping()
-    List<Quiz> all() {
-        return quizService.getAllQuizzes();
-    }
-
-    /*
     @GetMapping("/{id}")
     public ResponseEntity<Quiz> getQuizById(@PathVariable Long id) {
         return quizService.getQuizById(id)
@@ -32,11 +26,9 @@ public class QuizController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-     */
-
-    @GetMapping("/{id}")
-    public Quiz getQuiz(@PathVariable Long id) {
-        return quizService.getQuizWithDetails(id);
+    @GetMapping("/details")
+    public List<Quiz> getAllQuizzesWithDetails() {
+        return quizService.getAllQuizzesWithDetails();
     }
 
     @PostMapping

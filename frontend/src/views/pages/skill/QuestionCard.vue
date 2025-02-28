@@ -8,12 +8,23 @@ const optionList = ref([]);
 
 onMounted(async () => {
     try {
-        optionList.value = await api.get("/quiz");
+        const token = localStorage.getItem('token');
+        if (!token) {
+            throw new Error("Benutzer nicht authentifiziert");
+        }
+
+        optionList.value = await api.get("/quiz/details", {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+
         console.log(optionList.value);
     } catch (error) {
-        console.log(error);
+        console.error("Fehler beim Abrufen der Daten:", error);
     }
-})
+});
+
 
 </script>
 
