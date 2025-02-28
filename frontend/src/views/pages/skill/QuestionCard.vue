@@ -1,57 +1,67 @@
 <script setup>
+import { onMounted, ref } from 'vue';
+import api from '@/api/api';
 
-import {onMounted, ref} from "vue";
-import api from "@/api/api";
-
-const optionList = ref([]);
-
+const quiz = ref({ title: '', description: '', id: '', questions: [] });
+const currentQuestionIndex = ref(0);
+const quizList = ref({ title: '', description: '', id: '', questions: [] });
 
 onMounted(async () => {
     try {
         const token = localStorage.getItem('token');
         if (!token) {
-            throw new Error("Benutzer nicht authentifiziert");
+            throw new Error('Benutzer nicht authentifiziert');
         }
 
-        optionList.value = await api.get("/quiz/details", {
+        const response = await api.get('/quiz/details', {
             headers: {
-                Authorization: `Bearer ${token}`,
-            },
+                Authorization: `Bearer ${token}`
+            }
         });
 
-        console.log(optionList.value);
+        const data = response.data[0];
+        console.log(data);
+        quiz.value = {
+            id: data.id,
+            title: data.title,
+            description: data.description,
+            questions: data.questions
+        };
+
+        console.log(quiz.value);
     } catch (error) {
-        console.error("Fehler beim Abrufen der Daten:", error);
+        console.error('Fehler beim Abrufen der Daten:', error);
     }
 });
 
-
+const nextQuestion = () => {
+    if (currentQuestionIndex.value < quiz.value.questions.length - 1) {
+        currentQuestionIndex.value++;
+    } else {
+        console.log('Quiz beendet');
+    }
+};
 </script>
 
 <template>
-    <Card style="max-width: 60rem; overflow: hidden">
+    <Card v-if="quiz.questions.length > 0" style="max-width: 60rem; overflow: hidden">
         <template #header>
             <img alt="user header" src="https://primefaces.org/cdn/primevue/images/usercard.png" />
         </template>
-        <template #title>Beispielquiz</template>
-        <template #subtitle>Kategorie: Schweinebraten</template>
+        <template #title>{{ quiz.title }}</template>
         <template #content>
+            {{ quiz.description }}
+            <br />
             <p class="m-0">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                Inventore sed consequuntur error repudiandae numquam deserunt
-                quisquam repellat libero asperiores earum nam nobis, culpa ratione
-                uam perferendis esse, cupiditate neque
-                quas?
+                {{ quiz.questions[currentQuestionIndex].text }}
             </p>
             <div class="toggle">
-                <input id="sizeWeight" checked="checked" name="sizeBy" type="radio" value="weight" />
-                <label for="sizeWeight" >It's pretty, pretty, pretty, pretty good.</label>
-                <input id="sizeDimensions" name="sizeBy" type="radio" value="dimensions" />
-                <label for="sizeDimensions">100% yes</label>
-                <input id="sizeWeight2" checked="checked" name="sizeBy" type="radio" value="weight" />
-                <label for="sizeWeight2">lorem ipsum</label>
-                <input id="sizeDimensions2" name="sizeBy" type="radio" value="dimensions" />
-                <label for="sizeDimensions2">noch ein label</label>
+                <!--
+                <div v-for="(answer, index) in quiz.questions[currentQuestionIndex].antworten" :key="index" class="p-2">
+                    <input id="sizeWeight" name="sizeBy" type="radio" value="dimensions" />
+                    <label for="sizeWeight">{{ answer.text }}</label>
+                </div>
+                -->
             </div>
         </template>
         <template #footer>
@@ -64,26 +74,35 @@ onMounted(async () => {
 </template>
 
 <style lang="scss" scoped>
-
-
 $open-sans: 'Open Sans', 'Helvetica', sans-serif;
 
 $darkNavy: #213140;
-$teal1: #66B3FB;
+$teal1: #66b3fb;
 $teal2: rgba(75, 157, 234, 0.5);
 $charcoal: #555555;
-$gold: #B6985A;
+$gold: #b6985a;
 
-$activeShadow: 0 0 10px rgba($teal1, .5);
+$activeShadow: 0 0 10px rgba($teal1, 0.5);
 
-@mixin focusOutline {outline: dotted 1px #CCC; outline-offset: .45rem;}
-@mixin hideInput {width: 0; height: 0; position: absolute; left: -9999px;}
+@mixin focusOutline {
+    outline: dotted 1px #ccc;
+    outline-offset: 0.45rem;
+}
+@mixin hideInput {
+    width: 0;
+    height: 0;
+    position: absolute;
+    left: -9999px;
+}
 @mixin breakpoint($point) {
     @if $point == 1100 {
-        @media (max-width: 1100px) { @content ; }
-    }
-    @else if $point == 800 {
-        @media (max-width: 800px) { @content ; }
+        @media (max-width: 1100px) {
+            @content;
+        }
+    } @else if $point == 800 {
+        @media (max-width: 800px) {
+            @content;
+        }
     }
 }
 
@@ -92,28 +111,38 @@ $activeShadow: 0 0 10px rgba($teal1, .5);
 }
 
 .toggle {
-    margin: 1.5rem 0 1.5rem; box-sizing: border-box;
+    margin: 1.5rem 0 1.5rem;
+    box-sizing: border-box;
     font-size: 0;
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-start;
     align-items: stretch;
     gap: 1rem;
-    input {@include hideInput;}
+    input {
+        @include hideInput;
+    }
     input + label {
-        margin: 0; padding: .75rem 1rem; box-sizing: border-box;
-        position: relative; display: flex;
+        margin: 0;
+        padding: 0.75rem 1rem;
+        box-sizing: border-box;
+        position: relative;
+        display: flex;
         justify-content: left;
         align-items: center;
-        border: solid 1px #DDD;
-        box-shadow: 0 0 0 rgba(255,255,255,0);
-        transition:   border-color .15s ease-out,
-        color .25s ease-out,
-        background-color .15s ease-out,
-        box-shadow .15s ease-out;
+        border: solid 1px #ddd;
+        box-shadow: 0 0 0 rgba(255, 255, 255, 0);
+        transition:
+            border-color 0.15s ease-out,
+            color 0.25s ease-out,
+            background-color 0.15s ease-out,
+            box-shadow 0.15s ease-out;
         border-radius: 6px;
 
-        font-size: 1rem; line-height: 1.2; font-weight: 600; text-align: left;
+        font-size: 1rem;
+        line-height: 1.2;
+        font-weight: 600;
+        text-align: left;
         /* Textfluss ermöglichen */
         white-space: normal; /* Standardmäßig ist dies "nowrap", kann also geändert werden */
         word-wrap: break-word; /* Für ältere Browser */
@@ -128,15 +157,19 @@ $activeShadow: 0 0 10px rgba($teal1, .5);
         /* Flex-Wert: je zwei Elemente pro Zeile */
         flex: 0 0 calc(50% - 0.5rem);
     }
-    input:hover + label {border-color: $darkNavy;}
+    input:hover + label {
+        border-color: $darkNavy;
+    }
     input:checked + label {
         background-color: $teal2;
-        color: #FFF;
+        color: #fff;
         box-shadow: $activeShadow;
         border-color: $teal2;
         z-index: 1;
     }
-    input:focus + label {@include focusOutline;}
+    input:focus + label {
+        @include focusOutline;
+    }
 
     label::before {
         content: counter(toggle-counter);
@@ -146,7 +179,7 @@ $activeShadow: 0 0 10px rgba($teal1, .5);
         padding: 0.4rem 0.8rem;
         color: #5988bf; /* Nummernfarbe */
         background-color: $teal2;
-        border: solid 1px #DDD;
+        border: solid 1px #ddd;
         border-radius: 5px;
     }
 
@@ -171,9 +204,11 @@ $activeShadow: 0 0 10px rgba($teal1, .5);
 
     @include breakpoint(800) {
         input + label {
-            padding: .75rem .25rem;
+            padding: 0.75rem 0.25rem;
             flex: 0 0 50%;
-            display: flex; justify-content: center; align-items: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
     }
 }

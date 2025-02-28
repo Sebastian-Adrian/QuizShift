@@ -20,6 +20,6 @@ public class Quiz {
     private String description;
 
     @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Question> questionsList;
+    private List<Question> questions;
 
 }
