@@ -8,10 +8,10 @@ import lombok.Setter;
 import java.util.UUID;
 
 @Entity
-@Table(name = "antwort")
+@Table(name = "answer")
 @Getter
 @Setter
-public class Antwort {
+public class Answer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

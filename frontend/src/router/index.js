@@ -39,7 +39,7 @@ const index = createRouter({
                 {
                     path: '/quiz',
                     name: 'quiz',
-                    component: () => import('@/views/pages/skill/Quiz.vue'),
+                    component: () => import('@/views/pages/quiz/Quiz.vue'),
                     meta: { requiresAuth: true }
                 }
             ]

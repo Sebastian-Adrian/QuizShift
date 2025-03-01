@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue';
-import QuestionCard from "@/views/pages/skill/QuestionCard.vue";
+import QuestionCard from "@/views/pages/quiz/QuestionCard.vue";
 
 const popover = ref();
 const selectedQuizType = ref(null);

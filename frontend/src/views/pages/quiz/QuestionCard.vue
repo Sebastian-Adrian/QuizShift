@@ -54,8 +54,12 @@ const nextQuestion = () => {
                 {{ quiz.questions[currentQuestionIndex].text }}
             </p>
             <div class="toggle">
-                <div v-for="(answer, index) in quiz.questions[currentQuestionIndex].antworten" :key="index" >
-                    <input :id="'answer-' + index" :name="'question-' + currentQuestionIndex" :value="answer.text" type="radio"/>
+                <div v-for="(answer, index) in quiz.questions[currentQuestionIndex].answer" :key="index" >
+                    <input :id="'answer-' + index"
+                           :name="'question-' + currentQuestionIndex"
+                           :type="quiz.questions[currentQuestionIndex].type === 'SINGLE_CHOICE' ? 'radio' : 'checkbox'"
+                           :value="answer.text"
+                    />
                     <label :for="'answer-' + index">{{ answer.text }}</label>
                 </div>
             </div>

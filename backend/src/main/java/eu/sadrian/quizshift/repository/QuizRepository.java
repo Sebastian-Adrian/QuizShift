@@ -19,7 +19,7 @@ public interface QuizRepository extends JpaRepository<Quiz, Long> {
               q.description AS description
             FROM quiz q
                   LEFT JOIN question que ON q.id = que.quiz_id
-                  LEFT JOIN antwort a ON que.id = a.question_id
+                  LEFT JOIN answer a ON que.id = a.question_id
             """, nativeQuery = true)
     List<Quiz> getAllQuizzesWithDetails();
 }
