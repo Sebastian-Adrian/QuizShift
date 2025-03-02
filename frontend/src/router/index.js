@@ -39,19 +39,19 @@ const index = createRouter({
                 {
                     path: '/learn-quiz/:id',
                     name: 'quiz',
-                    component: () => import('@/views/pages/quiz/LearnQuiz.vue'),
+                    component: () => import('@/components/quiz/LearnQuiz.vue'),
                     meta: { requiresAuth: true }
                 },
                 {
                     path: '/create-quiz',
                     name: 'create-quiz',
-                    component: () => import('@/views/pages/quiz/CreateQuiz.vue'),
+                    component: () => import('@/components/quiz/CreateQuiz.vue'),
                     meta: { requiresAuth: true }
                 },
                 {
                     path: '/quiz',
                     name: 'quiz',
-                    component: () => import('@/views/pages/quiz/Quiz.vue'),
+                    component: () => import('@/views/pages/Quiz.vue'),
                     meta: { requiresAuth: true }
                 }
             ]

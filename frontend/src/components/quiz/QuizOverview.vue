@@ -54,7 +54,6 @@ onMounted( async () => {
             description: quiz.description,
         }));
 
-
     } catch (e) {
         console.error('Error: ', e.message || e.toString())
     }
@@ -65,11 +64,23 @@ onMounted( async () => {
 <template>
     <Toast/>
     <ConfirmPopup></ConfirmPopup>
-    <div class="card flex flex-col gap-3 ">
-        <Card v-for="quiz in quizzes" :key="quiz.id" :title="quiz.title" class="max-w-80">
+    <div class="flex flex-col gap-3 ">
+        <Card v-for="quiz in quizzes" :key="quiz.id" :title="quiz.title" class="max-w-xl max-h-24 overflow-hidden">
             <template #content>
-                <p class="text-lg">{{ quiz.title }}</p>
-                <p class="text-sm">{{ quiz.description }}</p>
+                <div class="flex items-center justify-between max-h-8">
+                    <div class="flex flex-col">
+                        <p class="text-lg">{{ quiz.title }}</p>
+                        <p class="text-sm">{{ quiz.description }}</p>
+                    </div>
+                    <Button
+                        class="ml-auto"
+                        icon="pi pi-trash"
+                        label="Delete"
+                        outlined
+                        severity="danger"
+                        @click="confirmDelete($event)">
+                    </Button>
+                </div>
             </template>
         </Card>
     </div>
