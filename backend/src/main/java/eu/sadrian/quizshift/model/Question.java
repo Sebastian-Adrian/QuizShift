@@ -21,7 +21,7 @@ public class Question {
     private String imageURL;
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Answer> antworten;
+    private List<Answer> answer;
 
     @Enumerated(EnumType.STRING)
     private QuestionType type;

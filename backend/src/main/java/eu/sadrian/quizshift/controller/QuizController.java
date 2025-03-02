@@ -19,8 +19,14 @@ public class QuizController {
         this.quizService = quizService;
     }
 
+    @GetMapping("")
+    public List<Quiz> getAllQuizzes() {
+        return quizService.getAllQuizzes();
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<Quiz> getQuizById(@PathVariable Long id) {
+
         return quizService.getQuizById(id)
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());

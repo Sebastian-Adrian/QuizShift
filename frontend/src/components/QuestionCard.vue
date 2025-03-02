@@ -1,6 +1,7 @@
 <script setup>
 import { onMounted, ref } from 'vue';
 import api from '@/api/api';
+import router from "@/router";
 
 const quiz = ref({ title: '', description: '', id: '', questions: [] });
 const currentQuestionIndex = ref(0);
@@ -10,7 +11,7 @@ onMounted(async () => {
     try {
         const token = localStorage.getItem('token');
         if (!token) {
-            throw new Error('Benutzer nicht authentifiziert');
+            await router.push('/login');
         }
 
         const response = await api.get('/quiz/details', {
@@ -20,7 +21,6 @@ onMounted(async () => {
         });
 
         const data = response.data[0];
-        console.log(data);
         quiz.value = {
             id: data.id,
             title: data.title,

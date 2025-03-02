@@ -21,12 +21,27 @@ const model = ref([
     {
         label: 'Skill',
         icon: 'pi pi-fw pi-briefcase',
-        to: '/pages',
         items: [
             {
                 label: 'Quiz',
                 icon: 'pi pi-fw pi-globe',
-                to: '/quiz'
+                items: [
+                    {
+                        label: 'Übersicht',
+                        icon: 'pi pi-fw pi-user',
+                        to: '/quiz'
+                    },
+                    {
+                        label: 'Lernen',
+                        icon: 'pi pi-fw pi-globe',
+                        to: '/learn-quiz'
+                    },
+                    {
+                        label: 'Erstellen',
+                        icon: 'pi pi-fw pi-pencil',
+                        to: '/create-quiz'
+                    }
+                ]
             },
             {
                 label: 'Lernen',
