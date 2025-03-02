@@ -47,5 +47,10 @@ public class QuizController {
         quizService.deleteQuiz(id);
         return ResponseEntity.noContent().build();
     }
+
+    @PutMapping("/{id}")
+    public Quiz updateQuiz(@PathVariable Long id, @RequestBody Quiz quiz) {
+        return quizService.saveQuiz(quiz);
+    }
 }
 

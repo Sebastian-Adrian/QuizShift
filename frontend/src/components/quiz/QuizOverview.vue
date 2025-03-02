@@ -5,11 +5,15 @@ import router from "@/router";
 import api from "@/api/api";
 import {useToast} from "primevue/usetoast";
 import {useConfirm} from "primevue/useconfirm";
+import {useQuizStore} from "@/stores/quizStore";
+import InputText from "primevue/inputtext";
+import FloatLabel from "primevue/floatlabel";
 
 const confirm = useConfirm();
 const toast = useToast();
 
-const quizzes = ref([]);
+const quizStore = useQuizStore();
+const {quizzes} = quizStore
 
 const confirmDelete = (event) => {
     confirm.require({
@@ -26,13 +30,51 @@ const confirmDelete = (event) => {
             severity: 'danger'
         },
         accept: () => {
-            toast.add({ severity: 'info', summary: 'Confirmed', detail: 'Quiz gelöscht', life: 3000 });
+            toast.add({ severity: 'info', summary: 'Gelöscht', detail: 'Quiz wurde gelöscht', life: 3000 });
         },
         reject: () => {
-            toast.add({ severity: 'error', summary: 'Rejected', detail: 'Löschen Abgebrochen', life: 3000 });
+            toast.add({ severity: 'error', summary: 'Abgebrochen', detail: 'Löschen wurde Abgebrochen', life: 3000 });
         }
     });
 };
+
+const updateQuiz = async (quiz) => {
+
+    /*
+    * TODO: Authorization
+    */
+
+    try {
+        const response = await api.put(`/quiz/${quiz.id}`, quiz);
+
+        if(response.status === 200) {
+            toast.add({
+                severity: "success",
+                summary: "Gespeichert",
+                detail: "Das Quiz wurde gespeichert!",
+                life: 3000
+            });
+
+            quizzes.value = quizzes.value.map(q => q.id === quiz.id ? response.data : q);
+
+        } else {
+            toast.add({
+                severity: "error",
+            })
+            return
+        }
+
+        quiz.editMode = !quiz.editMode;
+
+
+    } catch (e){
+        console.error('Error: ', e.message || e.toString())
+    }
+};
+
+const editQuiz = (quiz) => {
+    quiz.editMode = !quiz.editMode;
+}
 
 
 onMounted( async () => {
@@ -48,7 +90,8 @@ onMounted( async () => {
             }
         });
 
-        quizzes.value = await response.data.map(quiz => ({
+        quizStore.quizzes = response.data.map(quiz => ({
+            editMode: false,
             id: quiz.id,
             title: quiz.title,
             description: quiz.description,
@@ -65,21 +108,54 @@ onMounted( async () => {
     <Toast/>
     <ConfirmPopup></ConfirmPopup>
     <div class="flex flex-col gap-3 ">
-        <Card v-for="quiz in quizzes" :key="quiz.id" :title="quiz.title" class="max-w-xl max-h-24 overflow-hidden">
+        <Card v-for="quiz in quizStore.quizzes" :key="quiz.id" :title="quiz.title" class="max-w-xl max-h-36 overflow-hidden">
             <template #content>
-                <div class="flex items-center justify-between max-h-8">
-                    <div class="flex flex-col">
-                        <p class="text-lg">{{ quiz.title }}</p>
-                        <p class="text-sm">{{ quiz.description }}</p>
+                <div class="flex items-center justify-between max-h-20">
+                    <div class="flex flex-col gap-2">
+                        <div>
+                            <div v-if="quiz.editMode">
+                                <FloatLabel variant="on">
+                                    <InputText id="title" v-model="quiz.title" class="max-w-80" size="small"/>
+                                    <label for="title">Titel</label>
+                                </FloatLabel>
+                            </div>
+                            <p v-else class="text-lg">{{ quiz.title }}</p>
+                        </div>
+                        <div>
+                            <div v-if="quiz.editMode">
+                                <FloatLabel variant="on">
+                                    <InputText v-if="quiz.editMode" id="description" v-model="quiz.description" class="max-w-80"
+                                               size="small"/>
+                                    <label for="description">Beschreibung</label>
+                                </FloatLabel>
+                            </div>
+                            <p v-else class="text-sm">{{ quiz.description }}</p>
+                        </div>
                     </div>
-                    <Button
-                        class="ml-auto"
-                        icon="pi pi-trash"
-                        label="Delete"
+                    <div class="ml-auto flex gap-1">
+                        <Button v-if="quiz.editMode"
+                        :disabled="!quiz.editMode"
+                        icon="pi pi-check"
+                        label="Save"
                         outlined
-                        severity="danger"
-                        @click="confirmDelete($event)">
-                    </Button>
+                        @click="updateQuiz(quiz)">
+                        </Button>
+                        <Button
+                            v-else
+                            icon="pi pi-pencil"
+                            label="Edit"
+                            outlined
+                            @click="editQuiz(quiz)"
+                        >
+                        </Button>
+                        <Button
+                            icon="pi pi-trash"
+                            label="Delete"
+                            outlined
+                            severity="danger"
+                            @click="confirmDelete($event)">
+                        </Button>
+                    </div>
                 </div>
             </template>
         </Card>
